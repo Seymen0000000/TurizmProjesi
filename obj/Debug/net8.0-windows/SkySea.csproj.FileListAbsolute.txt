@@ -1,0 +1,8 @@
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.csproj.AssemblyReference.cache
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.RegisterForm.resources
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.SplashScreen.resources
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.csproj.GenerateResource.cache
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.AssemblyInfoInputs.cache
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.AssemblyInfo.cs
+C:\Users\Emirs\source\repos\SkySea\obj\Debug\net8.0-windows\SkySea.csproj.CoreCompileInputs.cache

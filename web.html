@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkySea - Seyahat Platformu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Dil dosyaları
+    const translations = {
+      tr: {
+        LoginTitle: "SkySea - Giriş",
+        RegisterTitle: "SkySea - Kayıt Ol",
+        Username: "Kullanıcı Adı",
+        Password: "Şifre",
+        Email: "E-posta",
+        Phone: "Telefon",
+        Address: "Adres",
+        Login: "Giriş Yap",
+        Register: "Kayıt Ol",
+        Back: "Geri",
+        LoginSuccess: "Giriş başarılı!",
+        LoginFailed: "Kullanıcı adı veya şifre yanlış!",
+        RegisterSuccess: "Kayıt başarılı! Giriş yapabilirsiniz.",
+        RegisterFailed: "Lütfen tüm alanları doğru doldurun!",
+        MainTitle: "SkySea - Ana Sayfa",
+        WelcomeMessage: "SkySea Seyahat Platformuna Hoş Geldiniz!",
+        Hotels: "Oteller",
+        CarRental: "Araç Kiralama",
+        Flights: "Uçak Biletleri",
+        Bus: "Otobüs Biletleri",
+        Tours: "Turlar",
+        Guides: "Rehberler",
+        Profile: "Profil",
+        History: "Rezervasyon Geçmişi",
+        Support: "Canlı Destek",
+        HotelsTitle: "SkySea - Oteller",
+        CarRentalTitle: "SkySea - Araç Kiralama",
+        FlightsTitle: "SkySea - Uçak Biletleri",
+        BusTitle: "SkySea - Otobüs Biletleri",
+        ToursTitle: "SkySea - Turlar",
+        GuidesTitle: "SkySea - Rehberler",
+        ProfileTitle: "SkySea - Profil",
+        HistoryTitle: "SkySea - Rezervasyon Geçmişi",
+        SupportTitle: "SkySea - Canlı Destek",
+        SupportMessage: "Canlı destek için mesajınızı yazın:",
+        Send: "Gönder",
+        Reserve: "Rezerve Et",
+        Rent: "Kirala",
+        Buy: "Satın Al",
+        Book: "Rezervasyon Yap",
+        Contact: "İletişim Kur",
+        SelectItem: "Lütfen bir öğe seçin!",
+        PaymentTitle: "SkySea - Ödeme",
+        Payment: "Ödeme Ekranı",
+        Service: "Hizmet",
+        Price: "Fiyat",
+        CardNumber: "Kart Numarası",
+        ExpiryDate: "Son Kullanma (AA/YY)",
+        CVV: "CVV",
+        Pay: "Öde",
+        FillAllFields: "Lütfen tüm alanları doldurun!",
+        InvalidCard: "Geçersiz kart bilgileri!",
+        PaymentSuccess: "Ödeme başarılı! ",
+        Logout: "Çıkış Yap",
+        SelectLanguage: "Dil Seç",
+        Turkish: "Türkçe",
+        English: "English",
+        Name: "Ad",
+        City: "Şehir",
+        PricePerNight: "Gece Başı Fiyat",
+        Stars: "Yıldız Sayısı",
+        Brand: "Marka",
+        Model: "Model",
+        Year: "Yıl",
+        Color: "Renk",
+        PricePerDay: "Günlük Fiyat",
+        PickupLocation: "Alış Yeri",
+        DropoffLocation: "Teslim Yeri",
+        PickupDate: "Alış Tarihi",
+        DropoffDate: "Teslim Tarihi",
+        Departure: "Kalkış Yeri",
+        Arrival: "Varış Yeri",
+        DepartureDate: "Kalkış Tarihi",
+        ArrivalDate: "Varış Tarihi",
+        FlightDuration: "Uçuş Süresi",
+        TourType: "Tur Türü",
+        GuideLanguages: "Dil Becerileri",
+        Experience: "Deneyim Yılı",
+        WorkingHours: "Çalışma Saatleri",
+        Status: "Durum",
+        PaymentStatus: "Ödeme Durumu",
+        StartDate: "Başlangıç Tarihi",
+        EndDate: "Bitiş Tarihi",
+        Filter: "Filtrele",
+        SortByPrice: "Fiyata Göre Sırala",
+        Search: "Ara",
+        UpdateProfile: "Profili Güncelle",
+        UpdateSuccess: "Profil güncellendi!",
+        ChatWithSupport: "Destek ile Sohbet",
+        NoMessages: "Henüz mesaj yok.",
+        InvalidEmail: "Geçersiz e-posta formatı!",
+        PasswordLength: "Şifre en az 6 karakter olmalı!",
+        NoData: "Veri bulunamadı.",
+        ClearFilters: "Filtreleri Temizle"
+      },
+      en: {
+        LoginTitle: "SkySea - Login",
+        RegisterTitle: "SkySea - Register",
+        Username: "Username",
+        Password: "Password",
+        Email: "Email",
+        Phone: "Phone",
+        Address: "Address",
+        Login: "Login",
+        Register: "Register",
+        Back: "Back",
+        LoginSuccess: "Login successful!",
+        LoginFailed: "Incorrect username or password!",
+        RegisterSuccess: "Registration successful! You can now log in.",
+        RegisterFailed: "Please fill all fields correctly!",
+        MainTitle: "SkySea - Home",
+        WelcomeMessage: "Welcome to SkySea Travel Platform!",
+        Hotels: "Hotels",
+        CarRental: "Car Rental",
+        Flights: "Flights",
+        Bus: "Bus Tickets",
+        Tours: "Tours",
+        Guides: "Guides",
+        Profile: "Profile",
+        History: "Booking History",
+        Support: "Live Support",
+        HotelsTitle: "SkySea - Hotels",
+        CarRentalTitle: "SkySea - Car Rental",
+        FlightsTitle: "SkySea - Flights",
+        BusTitle: "SkySea - Bus Tickets",
+        ToursTitle: "SkySea - Tours",
+        GuidesTitle: "SkySea - Guides",
+        ProfileTitle: "SkySea - Profile",
+        HistoryTitle: "SkySea - Booking History",
+        SupportTitle: "SkySea - Live Support",
+        SupportMessage: "Enter your message for live support:",
+        Send: "Send",
+        Reserve: "Reserve",
+        Rent: "Rent",
+        Buy: "Buy",
+        Book: "Book",
+        Contact: "Contact",
+        SelectItem: "Please select an item!",
+        PaymentTitle: "SkySea - Payment",
+        Payment: "Payment Screen",
+        Service: "Service",
+        Price: "Price",
+        CardNumber: "Card Number",
+        ExpiryDate: "Expiry Date (MM/YY)",
+        CVV: "CVV",
+        Pay: "Pay",
+        FillAllFields: "Please fill all fields!",
+        InvalidCard: "Invalid card details!",
+        PaymentSuccess: "Payment successful! ",
+        Logout: "Logout",
+        SelectLanguage: "Select Language",
+        Turkish: "Turkish",
+        English: "English",
+        Name: "Name",
+        City: "City",
+        PricePerNight: "Price per Night",
+        Stars: "Star Rating",
+        Brand: "Brand",
+        Model: "Model",
+        Year: "Year",
+        Color: "Color",
+        PricePerDay: "Price per Day",
+        PickupLocation: "Pickup Location",
+        DropoffLocation: "Dropoff Location",
+        PickupDate: "Pickup Date",
+        DropoffDate: "Dropoff Date",
+        Departure: "Departure",
+        Arrival: "Arrival",
+        DepartureDate: "Departure Date",
+        ArrivalDate: "Arrival Date",
+        FlightDuration: "Flight Duration",
+        TourType: "Tour Type",
+        GuideLanguages: "Languages",
+        Experience: "Years of Experience",
+        WorkingHours: "Working Hours",
+        Status: "Status",
+        PaymentStatus: "Payment Status",
+        StartDate: "Start Date",
+        EndDate: "End Date",
+        Filter: "Filter",
+        SortByPrice: "Sort by Price",
+        Search: "Search",
+        UpdateProfile: "Update Profile",
+        UpdateSuccess: "Profile updated!",
+        ChatWithSupport: "Chat with Support",
+        NoMessages: "No messages yet.",
+        InvalidEmail: "Invalid email format!",
+        PasswordLength: "Password must be at least 6 characters!",
+        NoData: "No data found.",
+        ClearFilters: "Clear Filters"
+      }
+    };
+
+    // Statik veri
+    const hotelsData = [
+      { id: 1, ad: "Hilton Bahçe Otel", sehir: "İstanbul", yildiz_sayisi: 4, fiyat_gecelik: 2500.00, adres: "Bahçe Sokak, No:1", telefon: "0212 123 4567", wifi: "Var", kahvalti: "Dahil", otopark: "Var", rezervasyon_durumu: "Müsait" },
+      { id: 2, ad: "Rixos Premium Otel", sehir: "Antalya", yildiz_sayisi: 5, fiyat_gecelik: 3500.00, adres: "Deniz Caddesi, No:5", telefon: "0242 987 6543", wifi: "Var", kahvalti: "Dahil", otopark: "Yok", rezervasyon_durumu: "Müsait" },
+      { id: 3, ad: "Swissotel Boğaz", sehir: "İstanbul", yildiz_sayisi: 5, fiyat_gecelik: 4000.00, adres: "Boğaz Yolu, No:10", telefon: "0212 555 1234", wifi: "Var", kahvalti: "Ekstra", otopark: "Var", rezervasyon_durumu: "Dolu" }
+    ];
+
+    const carsData = [
+      { id: 1, marka: "Mercedes", model: "E-Serisi", yil: 2023, renk: "Siyah", fiyat_gunluk: 1000.00, alis_yeri: "İstanbul Havalimanı", teslim_yeri: "Antalya Havalimanı", alis_tarihi: "2025-07-01", teslim_tarihi: "2025-07-05", durum: "Müsait", kilometre: 5000, vites_turu: "Otomatik" },
+      { id: 2, marka: "BMW", model: "5 Serisi", yil: 2022, renk: "Beyaz", fiyat_gunluk: 900.00, alis_yeri: "Ankara Garı", teslim_yeri: "İzmir Otogarı", alis_tarihi: "2025-07-03", teslim_tarihi: "2025-07-07", durum: "Müsait", kilometre: 10000, vites_turu: "Otomatik" },
+      { id: 3, marka: "Audi", model: "A4", yil: 2021, renk: "Gri", fiyat_gunluk: 850.00, alis_yeri: "İstanbul Otogarı", teslim_yeri: "Bursa Terminali", alis_tarihi: "2025-07-05", teslim_tarihi: "2025-07-08", durum: "Dolu", kilometre: 15000, vites_turu: "Manuel" }
+    ];
+
+    const flightsData = [
+      { id: 1, kalkis_yeri: "İstanbul (IST)", varis_yeri: "New York (JFK)", kalkis_tarihi: "2025-07-01 09:00", varis_tarihi: "2025-07-01 13:30", fiyat: 4500.00, ucus_suresi: "11:30", koltuk_sayisi: 200, kalan_koltuk: 50, havayolu: "THY", aktarma_sayisi: 0 },
+      { id: 2, kalkis_yeri: "Ankara (ESB)", varis_yeri: "Londra (LHR)", kalkis_tarihi: "2025-07-05 14:00", varis_tarihi: "2025-07-05 16:30", fiyat: 3200.00, ucus_suresi: "4:30", koltuk_sayisi: 150, kalan_koltuk: 20, havayolu: "Pegasus", aktarma_sayisi: 1 },
+      { id: 3, kalkis_yeri: "İzmir (ADB)", varis_yeri: "Paris (CDG)", kalkis_tarihi: "2025-07-10 11:00", varis_tarihi: "2025-07-10 14:00", fiyat: 2800.00, ucus_suresi: "5:00", koltuk_sayisi: 180, kalan_koltuk: 30, havayolu: "SunExpress", aktarma_sayisi: 0 }
+    ];
+
+    const busesData = [
+      { id: 1, kalkis_yeri: "İstanbul", varis_yeri: "Ankara", kalkis_tarihi: "2025-07-01 08:00", varis_tarihi: "2025-07-01 13:00", fiyat: 350.00, sefer_suresi: "5:00", koltuk_sayisi: 40, kalan_koltuk: 10, firma_adi: "Kamil Koç", bagaj_hakki: "30 kg" },
+      { id: 2, kalkis_yeri: "İzmir", varis_yeri: "Antalya", kalkis_tarihi: "2025-07-03 09:00", varis_tarihi: "2025-07-03 14:00", fiyat: 400.00, sefer_suresi: "5:00", koltuk_sayisi: 45, kalan_koltuk: 5, firma_adi: "Pamukkale", bagaj_hakki: "25 kg" },
+      { id: 3, kalkis_yeri: "Bursa", varis_yeri: "Adana", kalkis_tarihi: "2025-07-05 10:00", varis_tarihi: "2025-07-05 18:00", fiyat: 450.00, sefer_suresi: "8:00", koltuk_sayisi: 50, kalan_koltuk: 15, firma_adi: "Metro", bagaj_hakki: "30 kg" }
+    ];
+
+    const toursData = [
+      { id: 1, ad: "Kapadokya Turu", sehir: "Nevşehir", fiyat: 1500.00, baslangic_tarihi: "2025-07-01", bitis_tarihi: "2025-07-03", tur_turu: "Doğa", sure: "3 gün", maksimum_katilimci: 20, kalan_kontenjan: 5, rehber_adi: "Ahmet Yılmaz", yemek_durumu: "Dahil" },
+      { id: 2, ad: "Efes Turu", sehir: "İzmir", fiyat: 1200.00, baslangic_tarihi: "2025-07-05", bitis_tarihi: "2025-07-06", tur_turu: "Kültürel", sure: "2 gün", maksimum_katilimci: 15, kalan_kontenjan: 3, rehber_adi: "Ayşe Kaya", yemek_durumu: "Ekstra" },
+      { id: 3, ad: "Pamukkale Turu", sehir: "Denizli", fiyat: 1300.00, baslangic_tarihi: "2025-07-10", bitis_tarihi: "2025-07-11", tur_turu: "Doğa", sure: "2 gün", maksimum_katilimci: 25, kalan_kontenjan: 10, rehber_adi: "Mehmet Demir", yemek_durumu: "Dahil" }
+    ];
+
+    const guidesData = [
+      { id: 1, ad: "Ahmet Yılmaz", sehir: "İstanbul", telefon: "0532 123 4567", eposta: "ahmet@guide.com", dil_becerileri: "İngilizce, Almanca", deneyim_yili: 5, calisma_saatleri: "09:00-17:00", sertifikalar: "Turist Rehberliği" },
+      { id: 2, ad: "Ayşe Kaya", sehir: "Antalya", telefon: "0533 987 6543", eposta: "ayse@guide.com", dil_becerileri: "İngilizce, Fransızca", deneyim_yili: 3, calisma_saatleri: "10:00-18:00", sertifikalar: "Kültürel Rehberlik" },
+      { id: 3, ad: "Mehmet Demir", sehir: "İzmir", telefon: "0534 555 1234", eposta: "mehmet@guide.com", dil_becerileri: "İngilizce, İtalyanca", deneyim_yili: 7, calisma_saatleri: "08:00-16:00", sertifikalar: "Doğa Rehberliği" }
+    ];
+
+    const initialUsers = [
+      { username: "testkullanici", password: "123456", email: "test@ornek.com", phone: "05551234567", address: "İstanbul, Beyoğlu" }
+    ];
+
+    // Bileşenler
+    const Login = ({ onLogin, onRegister, lang }) => {
+      const [username, setUsername] = useState("");
+      const [password, setPassword] = useState("");
+      const t = translations[lang];
+
+      const handleLogin = () => {
+        const user = initialUsers.find(u => u.username === username && u.password === password);
+        if (user) {
+          onLogin(user);
+        } else {
+          alert(t.LoginFailed);
+        }
+      };
+
+      return (
+        <div className="min-h-screen bg-gradient-to-r from-blue-500 to-blue-800 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md transform transition-all duration-300 hover:scale-105">
+            <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">{t.LoginTitle}</h2>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">{t.Username}</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 font-medium">{t.Password}</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <button
+              onClick={handleLogin}
+              className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all duration-300"
+            >
+              {t.Login}
+            </button>
+            <button
+              onClick={onRegister}
+              className="w-full bg-green-600 text-white p-3 rounded-lg mt-3 hover:bg-green-700 transition-all duration-300"
+            >
+              {t.Register}
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    const Register = ({ onBack, onRegister, lang }) => {
+      const [username, setUsername] = useState("");
+      const [password, setPassword] = useState("");
+      const [email, setEmail] = useState("");
+      const [phone, setPhone] = useState("");
+      const [address, setAddress] = useState("");
+      const t = translations[lang];
+
+      const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      const handleRegister = () => {
+        if (!username || !password || !email || !validateEmail(email) || password.length < 6) {
+          alert(password.length < 6 ? t.PasswordLength : !validateEmail(email) ? t.InvalidEmail : t.FillAllFields);
+          return;
+        }
+        const newUser = { username, password, email, phone, address };
+        initialUsers.push(newUser);
+        alert(t.RegisterSuccess);
+        onRegister();
+      };
+
+      return (
+        <div className="min-h-screen bg-gradient-to-r from-blue-500 to-blue-800 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md transform transition-all duration-300 hover:scale-105">
+            <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">{t.RegisterTitle}</h2>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">{t.Username}</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">{t.Password}</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">{t.Email}</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">{t.Phone}</label>
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 font-medium">{t.Address}</label>
+              <textarea
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <button
+              onClick={handleRegister}
+              className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-all duration-300"
+            >
+              {t.Register}
+            </button>
+            <button
+              onClick={onBack}
+              className="w-full bg-gray-600 text-white p-3 rounded-lg mt-3 hover:bg-gray-700 transition-all duration-300"
+            >
+              {t.Back}
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    const Hotels = ({ onSelect, lang }) => {
+      const [search, setSearch] = useState("");
+      const [minPrice, setMinPrice] = useState("");
+      const [maxPrice, setMaxPrice] = useState("");
+      const [stars, setStars] = useState("");
+      const [sortOrder, setSortOrder] = useState("asc");
+      const t = translations[lang];
+
+      const filteredHotels = hotelsData
+        .filter(hotel =>
+          hotel.ad.toLowerCase().includes(search.toLowerCase()) &&
+          (minPrice === "" || hotel.fiyat_gecelik >= parseFloat(minPrice)) &&
+          (maxPrice === "" || hotel.fiyat_gecelik <= parseFloat(maxPrice)) &&
+          (stars === "" || hotel.yildiz_sayisi === parseInt(stars))
+        )
+        .sort((a, b) => sortOrder === "asc" ? a.fiyat_gecelik - b.fiyat_gecelik : b.fiyat_gecelik - a.fiyat_gecelik);
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.HotelsTitle}</h2>
+          <div className="mb-4 flex flex-wrap gap-4">
+            <input
+              type="text"
+              placeholder={t.Search}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="number"
+              placeholder="Min Fiyat"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="number"
+              placeholder="Maks Fiyat"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <select
+              value={stars}
+              onChange={(e) => setStars(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">{t.Stars}</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="asc">{t.SortByPrice} (Artan)</option>
+              <option value="desc">{t.SortByPrice} (Azalan)</option>
+            </select>
+            <button
+              onClick={() => { setSearch(""); setMinPrice(""); setMaxPrice(""); setStars(""); }}
+              className="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600"
+            >
+              {t.ClearFilters}
+            </button>
+          </div>
+          {filteredHotels.length === 0 ? (
+            <p className="text-center text-gray-500">{t.NoData}</p>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-3">{t.Name}</th>
+                  <th className="p-3">{t.City}</th>
+                  <th className="p-3">{t.Stars}</th>
+                  <th className="p-3">{t.PricePerNight}</th>
+                  <th className="p-3">{t.Reserve}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredHotels.map(hotel => (
+                  <tr key={hotel.id} className="border-t hover:bg-gray-100 transition-all duration-200">
+                    <td className="p-3">{hotel.ad}</td>
+                    <td className="p-3">{hotel.sehir}</td>
+                    <td className="p-3">{hotel.yildiz_sayisi}</td>
+                    <td className="p-3">{hotel.fiyat_gecelik} TL</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => onSelect("Otel Rezervasyonu", hotel.fiyat_gecelik, hotel.id)}
+                        className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-all duration-300"
+                        disabled={hotel.rezervasyon_durumu === "Dolu"}
+                      >
+                        {hotel.rezervasyon_durumu === "Dolu" ? "Dolu" : t.Reserve}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      );
+    };
+
+    const CarRental = ({ onSelect, lang }) => {
+      const [search, setSearch] = useState("");
+      const [minPrice, setMinPrice] = useState("");
+      const [maxPrice, setMaxPrice] = useState("");
+      const [sortOrder, setSortOrder] = useState("asc");
+      const t = translations[lang];
+
+      const filteredCars = carsData
+        .filter(car =>
+          car.marka.toLowerCase().includes(search.toLowerCase()) &&
+          (minPrice === "" || car.fiyat_gunluk >= parseFloat(minPrice)) &&
+          (maxPrice === "" || car.fiyat_gunluk <= parseFloat(maxPrice))
+        )
+        .sort((a, b) => sortOrder === "asc" ? a.fiyat_gunluk - b.fiyat_gunluk : b.fiyat_gunluk - a.fiyat_gunluk);
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.CarRentalTitle}</h2>
+          <div className="mb-4 flex flex-wrap gap-4">
+            <input
+              type="text"
+              placeholder={t.Search}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="number"
+              placeholder="Min Fiyat"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="number"
+              placeholder="Maks Fiyat"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="asc">{t.SortByPrice} (Artan)</option>
+              <option value="desc">{t.SortByPrice} (Azalan)</option>
+            </select>
+            <button
+              onClick={() => { setSearch(""); setMinPrice(""); setMaxPrice(""); }}
+              className="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600"
+            >
+              {t.ClearFilters}
+            </button>
+          </div>
+          {filteredCars.length === 0 ? (
+            <p className="text-center text-gray-500">{t.NoData}</p>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-3">{t.Brand}</th>
+                  <th className="p-3">{t.Model}</th>
+                  <th className="p-3">{t.Year}</th>
+                  <th className="p-3">{t.Color}</th>
+                  <th className="p-3">{t.PricePerDay}</th>
+                  <th className="p-3">{t.PickupLocation}</th>
+                  <th className="p-3">{t.DropoffLocation}</th>
+                  <th className="p-3">{t.PickupDate}</th>
+                  <th className="p-3">{t.DropoffDate}</th>
+                  <th className="p-3">{t.Rent}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredCars.map(car => (
+                  <tr key={car.id} className="border-t hover:bg-gray-100 transition-all duration-200">
+                    <td className="p-3">{car.marka}</td>
+                    <td className="p-3">{car.model}</td>
+                    <td className="p-3">{car.yil}</td>
+                    <td className="p-3">{car.renk}</td>
+                    <td className="p-3">{car.fiyat_gunluk} TL</td>
+                    <td className="p-3">{car.alis_yeri}</td>
+                    <td className="p-3">{car.teslim_yeri}</td>
+                    <td className="p-3">{car.alis_tarihi}</td>
+                    <td className="p-3">{car.teslim_tarihi}</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => onSelect("Araç Kiralama", car.fiyat_gunluk, car.id)}
+                        className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-all duration-300"
+                        disabled={car.durum === "Dolu"}
+                      >
+                        {car.durum === "Dolu" ? "Dolu" : t.Rent}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      );
+    };
+
+    const Flights = ({ onSelect, lang }) => {
+      const [search, setSearch] = useState("");
+      const [departure, setDeparture] = useState("");
+      const [sortOrder, setSortOrder] = useState("asc");
+      const t = translations[lang];
+
+      const filteredFlights = flightsData
+        .filter(flight =>
+          flight.kalkis_yeri.toLowerCase().includes(search.toLowerCase()) &&
+          (departure === "" || flight.kalkis_yeri.toLowerCase().includes(departure.toLowerCase()))
+        )
+        .sort((a, b) => sortOrder === "asc" ? a.fiyat - b.fiyat : b.fiyat - a.fiyat);
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.FlightsTitle}</h2>
+          <div className="mb-4 flex flex-wrap gap-4">
+            <input
+              type="text"
+              placeholder={t.Search}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              placeholder={t.Departure}
+              value={departure}
+              onChange={(e) => setDeparture(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="asc">{t.SortByPrice} (Artan)</option>
+              <option value="desc">{t.SortByPrice} (Azalan)</option>
+            </select>
+            <button
+              onClick={() => { setSearch(""); setDeparture(""); }}
+              className="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600"
+            >
+              {t.ClearFilters}
+            </button>
+          </div>
+          {filteredFlights.length === 0 ? (
+            <p className="text-center text-gray-500">{t.NoData}</p>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-3">{t.Departure}</th>
+                  <th className="p-3">{t.Arrival}</th>
+                  <th className="p-3">{t.DepartureDate}</th>
+                  <th className="p-3">{t.ArrivalDate}</th>
+                  <th className="p-3">{t.FlightDuration}</th>
+                  <th className="p-3">{t.Price}</th>
+                  <th className="p-3">{t.Buy}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredFlights.map(flight => (
+                  <tr key={flight.id} className="border-t hover:bg-gray-100 transition-all duration-200">
+                    <td className="p-3">{flight.kalkis_yeri}</td>
+                    <td className="p-3">{flight.varis_yeri}</td>
+                    <td className="p-3">{flight.kalkis_tarihi}</td>
+                    <td className="p-3">{flight.varis_tarihi}</td>
+                    <td className="p-3">{flight.ucus_suresi}</td>
+                    <td className="p-3">{flight.fiyat} TL</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => onSelect("Uçak Bileti", flight.fiyat, flight.id)}
+                        className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-all duration-300"
+                        disabled={flight.kalan_koltuk === 0}
+                      >
+                        {flight.kalan_koltuk === 0 ? "Dolu" : t.Buy}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      );
+    };
+
+    const Buses = ({ onSelect, lang }) => {
+      const [search, setSearch] = useState("");
+      const [departure, setDeparture] = useState("");
+      const [sortOrder, setSortOrder] = useState("asc");
+      const t = translations[lang];
+
+      const filteredBuses = busesData
+        .filter(bus =>
+          bus.kalkis_yeri.toLowerCase().includes(search.toLowerCase()) &&
+          (departure === "" || bus.kalkis_yeri.toLowerCase().includes(departure.toLowerCase()))
+        )
+        .sort((a, b) => sortOrder === "asc" ? a.fiyat - b.fiyat : b.fiyat - a.fiyat);
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.BusTitle}</h2>
+          <div className="mb-4 flex flex-wrap gap-4">
+            <input
+              type="text"
+              placeholder={t.Search}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              placeholder={t.Departure}
+              value={departure}
+              onChange={(e) => setDeparture(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="asc">{t.SortByPrice} (Artan)</option>
+              <option value="desc">{t.SortByPrice} (Azalan)</option>
+            </select>
+            <button
+              onClick={() => { setSearch(""); setDeparture(""); }}
+              className="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600"
+            >
+              {t.ClearFilters}
+            </button>
+          </div>
+          {filteredBuses.length === 0 ? (
+            <p className="text-center text-gray-500">{t.NoData}</p>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-3">{t.Departure}</th>
+                  <th className="p-3">{t.Arrival}</th>
+                  <th className="p-3">{t.DepartureDate}</th>
+                  <th className="p-3">{t.ArrivalDate}</th>
+                  <th className="p-3">{t.FlightDuration}</th>
+                  <th className="p-3">{t.Price}</th>
+                  <th className="p-3">{t.Buy}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredBuses.map(bus => (
+                  <tr key={bus.id} className="border-t hover:bg-gray-100 transition-all duration-200">
+                    <td className="p-3">{bus.kalkis_yeri}</td>
+                    <td className="p-3">{bus.varis_yeri}</td>
+                    <td className="p-3">{bus.kalkis_tarihi}</td>
+                    <td className="p-3">{bus.varis_tarihi}</td>
+                    <td className="p-3">{bus.sefer_suresi}</td>
+                    <td className="p-3">{bus.fiyat} TL</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => onSelect("Otobüs Bileti", bus.fiyat, bus.id)}
+                        className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-all duration-300"
+                        disabled={bus.kalan_koltuk === 0}
+                      >
+                        {bus.kalan_koltuk === 0 ? "Dolu" : t.Buy}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      );
+    };
+
+    const Tours = ({ onSelect, lang }) => {
+      const [search, setSearch] = useState("");
+      const [minPrice, setMinPrice] = useState("");
+      const [maxPrice, setMaxPrice] = useState("");
+      const [sortOrder, setSortOrder] = useState("asc");
+      const t = translations[lang];
+
+      const filteredTours = toursData
+        .filter(tour =>
+          tour.ad.toLowerCase().includes(search.toLowerCase()) &&
+          (minPrice === "" || tour.fiyat >= parseFloat(minPrice)) &&
+          (maxPrice === "" || tour.fiyat <= parseFloat(maxPrice))
+        )
+        .sort((a, b) => sortOrder === "asc" ? a.fiyat - b.fiyat : b.fiyat - a.fiyat);
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.ToursTitle}</h2>
+          <div className="mb-4 flex flex-wrap gap-4">
+            <input
+              type="text"
+              placeholder={t.Search}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="number"
+              placeholder="Min Fiyat"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="number"
+              placeholder="Maks Fiyat"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="asc">{t.SortByPrice} (Artan)</option>
+              <option value="desc">{t.SortByPrice} (Azalan)</option>
+            </select>
+            <button
+              onClick={() => { setSearch(""); setMinPrice(""); setMaxPrice(""); }}
+              className="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600"
+            >
+              {t.ClearFilters}
+            </button>
+          </div>
+          {filteredTours.length === 0 ? (
+            <p className="text-center text-gray-500">{t.NoData}</p>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-3">{t.Name}</th>
+                  <th className="p-3">{t.City}</th>
+                  <th className="p-3">{t.StartDate}</th>
+                  <th className="p-3">{t.EndDate}</th>
+                  <th className="p-3">{t.TourType}</th>
+                  <th className="p-3">{t.Price}</th>
+                  <th className="p-3">{t.Book}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTours.map(tour => (
+                  <tr key={tour.id} className="border-t hover:bg-gray-100 transition-all duration-200">
+                    <td className="p-3">{tour.ad}</td>
+                    <td className="p-3">{tour.sehir}</td>
+                    <td className="p-3">{tour.baslangic_tarihi}</td>
+                    <td className="p-3">{tour.bitis_tarihi}</td>
+                    <td className="p-3">{tour.tur_turu}</td>
+                    <td className="p-3">{tour.fiyat} TL</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => onSelect("Tur Rezervasyonu", tour.fiyat, tour.id)}
+                        className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-all duration-300"
+                        disabled={tour.kalan_kontenjan === 0}
+                      >
+                        {tour.kalan_kontenjan === 0 ? "Dolu" : t.Book}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      );
+    };
+
+    const Guides = ({ lang }) => {
+      const [search, setSearch] = useState("");
+      const t = translations[lang];
+
+      const filteredGuides = guidesData.filter(guide =>
+        guide.ad.toLowerCase().includes(search.toLowerCase())
+      );
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.GuidesTitle}</h2>
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder={t.Search}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          {filteredGuides.length === 0 ? (
+            <p className="text-center text-gray-500">{t.NoData}</p>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-3">{t.Name}</th>
+                  <th className="p-3">{t.City}</th>
+                  <th className="p-3">{t.GuideLanguages}</th>
+                  <th className="p-3">{t.Experience}</th>
+                  <th className="p-3">{t.WorkingHours}</th>
+                  <th className="p-3">{t.Contact}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredGuides.map(guide => (
+                  <tr key={guide.id} className="border-t hover:bg-gray-100 transition-all duration-200">
+                    <td className="p-3">{guide.ad}</td>
+                    <td className="p-3">{guide.sehir}</td>
+                    <td className="p-3">{guide.dil_becerileri}</td>
+                    <td className="p-3">{guide.deneyim_yili}</td>
+                    <td className="p-3">{guide.calisma_saatleri}</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => alert(`${t.Contact} ${guide.ad}`)}
+                        className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-all duration-300"
+                      >
+                        {t.Contact}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      );
+    };
+
+    const Profile = ({ user, onUpdate, onHistory, onSupport, lang }) => {
+      const [editMode, setEditMode] = useState(false);
+      const [username, setUsername] = useState(user.username);
+      const [email, setEmail] = useState(user.email);
+      const [phone, setPhone] = useState(user.phone);
+      const [address, setAddress] = useState(user.address);
+      const t = translations[lang];
+
+      const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      const handleUpdate = () => {
+        if (!validateEmail(email)) {
+          alert(t.InvalidEmail);
+          return;
+        }
+        onUpdate({ ...user, username, email, phone, address });
+        setEditMode(false);
+        alert(t.UpdateSuccess);
+      };
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.ProfileTitle}</h2>
+          {editMode ? (
+            <div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium">{t.Username}</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium">{t.Email}</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium">{t.Phone}</label>
+                <input
+                  type="text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium">{t.Address}</label>
+                <textarea
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <button
+                onClick={handleUpdate}
+                className="bg-blue-600 text-white p-3 rounded-lg mr-2 hover:bg-blue-700 transition-all duration-300"
+              >
+                {t.UpdateProfile}
+              </button>
+              <button
+                onClick={() => setEditMode(false)}
+                className="bg-gray-600 text-white p-3 rounded-lg hover:bg-gray-700 transition-all duration-300"
+              >
+                {t.Back}
+              </button>
+            </div>
+          ) : (
+            <div>
+              <p className="mb-2"><strong>{t.Username}:</strong> {username}</p>
+              <p className="mb-2"><strong>{t.Email}:</strong> {email}</p>
+              <p className="mb-2"><strong>{t.Phone}:</strong> {phone}</p>
+              <p className="mb-4"><strong>{t.Address}:</strong> {address}</p>
+              <button
+                onClick={() => setEditMode(true)}
+                className="bg-blue-600 text-white p-3 rounded-lg mr-2 hover:bg-blue-700 transition-all duration-300"
+              >
+                {t.UpdateProfile}
+              </button>
+              <button
+                onClick={onHistory}
+                className="bg-blue-600 text-white p-3 rounded-lg mr-2 hover:bg-blue-700 transition-all duration-300"
+              >
+                {t.History}
+              </button>
+              <button
+                onClick={onSupport}
+                className="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all duration-300"
+              >
+                {t.Support}
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    const History = ({ bookings, onBack, lang }) => {
+      const t = translations[lang];
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.HistoryTitle}</h2>
+          {bookings.length === 0 ? (
+            <p className="text-center text-gray-500">{t.NoData}</p>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-3">{t.Service}</th>
+                  <th className="p-3">{t.Price}</th>
+                  <th className="p-3">{t.StartDate}</th>
+                  <th className="p-3">{t.EndDate}</th>
+                  <th className="p-3">{t.Status}</th>
+                  <th className="p-3">{t.PaymentStatus}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookings.map((item, index) => (
+                  <tr key={index} className="border-t hover:bg-gray-100 transition-all duration-200">
+                    <td className="p-3">{item.service}</td>
+                    <td className="p-3">{item.price} TL</td>
+                    <td className="p-3">{item.startDate}</td>
+                    <td className="p-3">{item.endDate}</td>
+                    <td className="p-3">{item.status}</td>
+                    <td className="p-3">{item.paymentStatus}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          <button
+            onClick={onBack}
+            className="mt-4 bg-gray-600 text-white p-3 rounded-lg hover:bg-gray-700 transition-all duration-300"
+          >
+            {t.Back}
+          </button>
+        </div>
+      );
+    };
+
+    const Support = ({ onBack, lang }) => {
+      const [message, setMessage] = useState("");
+      const [messages, setMessages] = useState([]);
+      const t = translations[lang];
+
+      const handleSend = () => {
+        if (message.trim()) {
+          setMessages([...messages, { text: message, sender: "user" }]);
+          setTimeout(() => {
+            setMessages(prev => [...prev, { text: "Mesajınızı aldık, en kısa sürede dönüş yapacağız!", sender: "support" }]);
+          }, 1000);
+          setMessage("");
+        }
+      };
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">{t.SupportTitle}</h2>
+          <div className="mb-4 h-64 overflow-y-auto border p-4 rounded-lg bg-gray-50">
+            {messages.length === 0 ? (
+              <p className="text-gray-500">{t.NoMessages}</p>
+            ) : (
+              messages.map((msg, index) => (
+                <div key={index} className={`mb-2 ${msg.sender === "user" ? "text-right" : "text-left"}`}>
+                  <span className={`inline-block p-2 rounded-lg ${msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}>
+                    {msg.text}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder={t.SupportMessage}
+              className="flex-grow p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleSend}
+              className="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-all duration-300"
+            >
+              {t.Send}
+            </button>
+          </div>
+          <button
+            onClick={onBack}
+            className="mt-4 bg-gray-600 text-white p-3 rounded-lg hover:bg-gray-700 transition-all duration-300"
+          >
+            {t.Back}
+          </button>
+        </div>
+      );
+    };
+
+    const Payment = ({ service, price, onSuccess, onBack, lang }) => {
+      const [cardNumber, setCardNumber] = useState("");
+      const [expiry, setExpiry] = useState("");
+      const [cvv, setCvv] = useState("");
+      const t = translations[lang];
+
+      const validateCard = () => {
+        const cardRegex = /^\d{16}$/;
+        const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+        const cvvRegex = /^\d{3}$/;
+        return cardRegex.test(cardNumber) && expiryRegex.test(expiry) && cvvRegex.test(cvv);
+      };
+
+      const handlePay = () => {
+        if (!cardNumber || !expiry || !cvv) {
+          alert(t.FillAllFields);
+          return;
+        }
+        if (!validateCard()) {
+          alert(t.InvalidCard);
+          return;
+        }
+        alert(`${t.PaymentSuccess}${service} için ${price} TL ödendi.`);
+        onSuccess();
+      };
+
+      return (
+        <div className="p-6 bg-white rounded-lg shadow-lg w-full max-w-md mx-auto">
+          <h2 className="text-2xl font-bold mb-4">{t.PaymentTitle}</h2>
+          <p className="mb-2"><strong>{t.Service}:</strong> {service}</p>
+          <p className="mb-4"><strong>{t.Price}:</strong> {price} TL</p>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium">{t.CardNumber}</label>
+            <input
+              type="text"
+              value={cardNumber}
+              onChange={(e) => setCardNumber(e.target.value)}
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium">{t.ExpiryDate}</label>
+            <input
+              type="text"
+              value={expiry}
+              onChange={(e) => setExpiry(e.target.value)}
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium">{t.CVV}</label>
+            <input
+              type="text"
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value)}
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button
+            onClick={handlePay}
+            className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-all duration-300"
+          >
+            {t.Pay}
+          </button>
+          <button
+            onClick={onBack}
+            className="w-full bg-gray-600 text-white p-3 rounded-lg mt-3 hover:bg-gray-700 transition-all duration-300"
+          >
+            {t.Back}
+          </button>
+        </div>
+      );
+    };
+
+    const Main = ({ user, onUpdateUser, onLogout }) => {
+      const [page, setPage] = useState("home");
+      const [lang, setLang] = useState("tr");
+      const [paymentData, setPaymentData] = useState(null);
+      const [bookings, setBookings] = useState([]);
+      const t = translations[lang];
+
+      const handleSelect = (service, price, itemId) => {
+        setPaymentData({ service, price, itemId });
+        setPage("payment");
+      };
+
+      const handlePaymentSuccess = () => {
+        const newBooking = {
+          service: paymentData.service,
+          price: paymentData.price,
+          itemId: paymentData.itemId,
+          startDate: new Date().toISOString().split("T")[0],
+          endDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+          status: "Onaylandı",
+          paymentStatus: "Ödendi"
+        };
+        setBookings([...bookings, newBooking]);
+        setPage("home");
+      };
+
+      const renderPage = () => {
+        switch (page) {
+          case "home":
+            return <div className="p-6"><h1 className="text-3xl font-bold mb-4">{t.WelcomeMessage}</h1></div>;
+          case "hotels":
+            return <Hotels onSelect={handleSelect} lang={lang} />;
+          case "car-rental":
+            return <CarRental onSelect={handleSelect} lang={lang} />;
+          case "flights":
+            return <Flights onSelect={handleSelect} lang={lang} />;
+          case "bus":
+            return <Buses onSelect={handleSelect} lang={lang} />;
+          case "tours":
+            return <Tours onSelect={handleSelect} lang={lang} />;
+          case "guides":
+            return <Guides lang={lang} />;
+          case "profile":
+            return <Profile user={user} onUpdate={onUpdateUser} onHistory={() => setPage("history")} onSupport={() => setPage("support")} lang={lang} />;
+          case "history":
+            return <History bookings={bookings} onBack={() => setPage("profile")} lang={lang} />;
+          case "support":
+            return <Support onBack={() => setPage("profile")} lang={lang} />;
+          case "payment":
+            return (
+              <Payment
+                service={paymentData.service}
+                price={paymentData.price}
+                onSuccess={handlePaymentSuccess}
+                onBack={() => setPage(paymentData.service.includes("Otel") ? "hotels" : paymentData.service.includes("Araç") ? "car-rental" : paymentData.service.includes("Uçak") ? "flights" : paymentData.service.includes("Otobüs") ? "bus" : "tours")}
+                lang={lang}
+              />
+            );
+          default:
+            return null;
+        }
+      };
+
+      return (
+        <div className="flex min-h-screen bg-gray-100">
+          <div className="w-1/5 bg-gradient-to-b from-blue-800 to-blue-600 text-white p-4 fixed h-full">
+            <h2 className="text-2xl font-bold mb-6">SkySea</h2>
+            <ul>
+              <li className="mb-3"><button onClick={() => setPage("hotels")} className="hover:text-blue-300 transition-all duration-200">{t.Hotels}</button></li>
+              <li className="mb-3"><button onClick={() => setPage("car-rental")} className="hover:text-blue-300 transition-all duration-200">{t.CarRental}</button></li>
+              <li className="mb-3"><button onClick={() => setPage("flights")} className="hover:text-blue-300 transition-all duration-200">{t.Flights}</button></li>
+              <li className="mb-3"><button onClick={() => setPage("bus")} className="hover:text-blue-300 transition-all duration-200">{t.Bus}</button></li>
+              <li className="mb-3"><button onClick={() => setPage("tours")} className="hover:text-blue-300 transition-all duration-200">{t.Tours}</button></li>
+              <li className="mb-3"><button onClick={() => setPage("guides")} className="hover:text-blue-300 transition-all duration-200">{t.Guides}</button></li>
+              <li className="mb-3"><button onClick={() => setPage("profile")} className="hover:text-blue-300 transition-all duration-200">{t.Profile}</button></li>
+              <li className="mb-3">
+                <select
+                  value={lang}
+                  onChange={(e) => setLang(e.target.value)}
+                  className="w-full p-2 bg-blue-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                >
+                  <option value="tr">{t.Turkish}</option>
+                  <option value="en">{t.English}</option>
+                </select>
+              </li>
+              <li><button onClick={onLogout} className="w-full bg-red-600 p-2 rounded-lg hover:bg-red-700 transition-all duration-300">{t.Logout}</button></li>
+            </ul>
+          </div>
+          <div className="ml-[20%] w-[80%] p-6 transition-opacity duration-500">
+            {renderPage()}
+          </div>
+        </div>
+      );
+    };
+
+    const App = () => {
+      const [loggedIn, setLoggedIn] = useState(false);
+      const [showRegister, setShowRegister] = useState(false);
+      const [lang, setLang] = useState("tr");
+      const [currentUser, setCurrentUser] = useState(null);
+      const t = translations[lang];
+
+      const handleLogin = (user) => {
+        setCurrentUser(user);
+        setLoggedIn(true);
+      };
+
+      const handleUpdateUser = (updatedUser) => {
+        setCurrentUser(updatedUser);
+        const userIndex = initialUsers.findIndex(u => u.username === updatedUser.username);
+        if (userIndex !== -1) {
+          initialUsers[userIndex] = updatedUser;
+        }
+      };
+
+      if (!loggedIn) {
+        if (showRegister) {
+          return <Register onBack={() => setShowRegister(false)} onRegister={() => setShowRegister(false)} lang={lang} />;
+        }
+        return (
+          <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-500 to-blue-800">
+            <div className="p-4">
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value)}
+                className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+              >
+                <option value="tr">{t.Turkish}</option>
+                <option value="en">{t.English}</option>
+              </select>
+            </div>
+            <Login onLogin={handleLogin} onRegister={() => setShowRegister(true)} lang={lang} />
+          </div>
+        );
+      }
+
+      return <Main user={currentUser} onUpdateUser={handleUpdateUser} onLogout={() => setLoggedIn(false)} />;
+    };
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>
